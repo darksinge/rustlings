@@ -3,6 +3,7 @@
 // on strings to generate an object of the implementor type.
 // You can read more about it at https://doc.rust-lang.org/std/str/trait.FromStr.html
 use std::str::FromStr;
+// use std::num::ParseIntError;
 
 #[derive(Debug)]
 struct Person {
@@ -10,7 +11,6 @@ struct Person {
     age: usize,
 }
 
-// I AM NOT DONE
 // Steps:
 // 1. If the length of the provided string is 0, then return an error
 // 2. Split the given string on the commas present in it
@@ -23,6 +23,22 @@ struct Person {
 impl FromStr for Person {
     type Err = String;
     fn from_str(s: &str) -> Result<Person, Self::Err> {
+        if s.len() == 0 {
+            return Err(String::from("empty string"))
+        }
+
+        let args: Vec<String> = s.split(",").map(|s| String::from(s)).collect();
+        let name: String = args[0].clone();
+        if name.len() == 0 {
+            return Err(String::from("empty name"))
+        }
+
+        let age_result = args[1].parse::<usize>();
+        match age_result {
+            Ok(age) => Ok(Person { name, age }),
+            _ => Err(String::from("parse int error"))
+        }
+        
     }
 }
 
