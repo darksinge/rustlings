@@ -3,9 +3,9 @@
 // - Modules
 // - Macros
 
-// Write a macro that passes the test! No hints this time, you can do it!
-
-// I AM NOT DONE
+macro_rules! my_macro {
+    ($e:expr) => (String::from("Hello ") + &$e.to_string())
+}
 
 #[cfg(test)]
 mod tests {
